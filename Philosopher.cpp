@@ -15,15 +15,16 @@ Philosopher::Philosopher(int index) {
     state = State::THINKING;
 }
 
-void Philosopher::loop(std::vector<std::unique_ptr<Fork>>& forks, int N) {
-    while (true) {
+
+void Philosopher::loop(std::vector<std::unique_ptr<Fork>>& forks, int N, std::counting_semaphore<>& dining_limit, std::atomic<bool>& stop_flag) {
+    while (!stop_flag) {
         think();
-        eat(forks, N);
+        eat(forks, N, dining_limit);
     }
 }
 
-void Philosopher::loop_static(Philosopher* that, std::vector<std::unique_ptr<Fork>>& forks, int N) {
-    that->loop(forks, N);
+void Philosopher::loop_static(Philosopher* that, std::vector<std::unique_ptr<Fork>>& forks, int N, std::counting_semaphore<>& dining_limit, std::atomic<bool>& stop_flag) {
+    that->loop(forks, N, dining_limit, stop_flag);
 }
 
 void Philosopher::think() {
@@ -32,8 +33,7 @@ void Philosopher::think() {
     std::this_thread::sleep_for(200ms);
 }
 
-void Philosopher::eat(std::vector<std::unique_ptr<Fork>>& forks, int N) {
-    static std::counting_semaphore<> dining_limit(N-1);
+void Philosopher::eat(std::vector<std::unique_ptr<Fork>>& forks, int N, std::counting_semaphore<>& dining_limit) {
     int left_fork_id = id;
     int right_fork_id = (id + 1) % N;
 

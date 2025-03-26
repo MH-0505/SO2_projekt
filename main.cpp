@@ -2,6 +2,7 @@
 #include <thread>
 #include <vector>
 #include <semaphore>
+#include <atomic>
 
 #include "Philosopher.h"
 #include "Fork.h"
@@ -22,6 +23,7 @@ int main(int argc, char *argv[]) {
         time_limit = std::stoi(argv[2]);
     }
 
+    std::atomic<bool> stop_flag(false);
     std::vector<std::unique_ptr<Fork>> forks;
 
     for(int i = 0; i < p_num; i++){
@@ -30,12 +32,14 @@ int main(int argc, char *argv[]) {
     std::vector<Philosopher> philosophers;
     std::vector<std::thread> threads;
 
+    static std::counting_semaphore<> dining_limit(p_num-1);
+
     for(int i = 0; i < p_num; i++){
         philosophers.emplace_back(i);
     }
 
     for(int i = 0; i < p_num; i++){
-        threads.emplace_back(&Philosopher::loop_static, &philosophers[i], std::ref(forks), p_num);
+        threads.emplace_back(&Philosopher::loop_static, &philosophers[i], std::ref(forks), p_num, std::ref(dining_limit), std::ref(stop_flag));
     }
 
     auto start_time = std::chrono::high_resolution_clock::now();
@@ -45,13 +49,15 @@ int main(int argc, char *argv[]) {
         int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(elapsed_time).count();
 
         if (elapsed_seconds >= time_limit){
+            stop_flag = true;
             break;
         }
     }
 
     for(int i = 0; i < p_num; i++){
-        threads[i].detach();
+        threads[i].join();
     }
+
 
     std::cout << "\nTime limit reached.\nSimulaion results:";
     std::cout << "\n                      Times eaten";

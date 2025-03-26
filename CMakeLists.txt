@@ -3,7 +3,7 @@ project(Projekt_1)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(.)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 add_executable(Projekt_1
         main.cpp
