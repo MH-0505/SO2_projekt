@@ -1,6 +1,6 @@
-# Projekt: Problem Jedzących Filozofów
+# Projekt 1: Problem jedzących filozofów
 
-Problem Jedzących Filozofów jest klasycznym problemem synchronizacji, który ilustruje problemy związane z zarządzaniem współbieżnymi wątkami. W problemie tym kilku filozofów siedzi wokół stołu i na przemian myśli i je. Aby jeść, każdy filozof musi trzymać w obu dłoniach po widelcu. Liczba widelców jest równa liczbie filozofów, zatem nie ma możliwości aby każdy posiadał jednocześnie po dwa widelce. Jeśli filozof nie może zdobyć obu widelców, musi czekać, aż staną się one dostępne. Głównym wyzwaniem jest synchronizacja tych wątków, aby uniknąć ich trwałego zablokowania (deadlock).
+Problem jedzących filozofów jest klasycznym problemem synchronizacji, który ilustruje problemy związane z zarządzaniem współbieżnymi wątkami. W problemie tym kilku filozofów siedzi wokół stołu i na przemian myśli i je. Aby jeść, każdy filozof musi trzymać w obu dłoniach po widelcu. Liczba widelców jest równa liczbie filozofów, zatem nie ma możliwości aby każdy posiadał jednocześnie po dwa widelce. Jeśli filozof nie może zdobyć obu widelców, musi czekać, aż staną się one dostępne. Głównym wyzwaniem jest synchronizacja tych wątków, aby uniknąć ich trwałego zablokowania (deadlock).
 
 W projekcie zastosowano semafor do ograniczenia liczby filozofów jedzących jednocześnie oraz mutexy do synchronizacji dostępu do zasobów (widelców).
 
