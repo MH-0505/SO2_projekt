@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    std::cout << "\nTime limit reached.\nSimulaion results:";
+    std::cout << "\nTime limit reached.\nSimulation results:";
     std::cout << "\n                      Times eaten";
 
     for(int i = 0; i < p_num; i++){
